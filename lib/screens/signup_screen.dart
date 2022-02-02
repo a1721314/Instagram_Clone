@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:instagram_clone/resources/auth_methods.dart';
 import 'package:instagram_clone/utils/colors.dart';
 import 'package:instagram_clone/widgets/text_field_input.dart';
 
@@ -43,11 +44,24 @@ class _SignupScreenState extends State<SignupScreen> {
                   // circular widget to accept and show our selected file
                   Stack(
                     children: [
-                      CircleAvatar(
-                        radius:64,
-                        //backgrounImage:
-                      )
+                      const CircleAvatar(
+                        radius: 64,
+                        backgroundImage: NetworkImage(
+                            'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80'),
+                      ),
+                      Positioned(
+                          bottom: -10,
+                          left: 80,
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.add_a_photo,
+                            ),
+                          )),
                     ],
+                  ),
+                  const SizedBox(
+                    height: 24,
                   ),
 
                   // text field input for username
@@ -78,7 +92,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   const SizedBox(
                     height: 24,
                   ),
-                   TextFieldInput(
+                  TextFieldInput(
                     hintText: 'Enter your bio',
                     textInputType: TextInputType.text,
                     textEditingController: _bioController,
@@ -88,8 +102,15 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   // button login
                   InkWell(
+                    onTap: () async {
+                      String res = await AuthMethods().signUpUser(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                          username: _usernameController.text,
+                          bio: _bioController.text);
+                    },
                     child: Container(
-                      child: const Text('Log in'),
+                      child: const Text('Sign up'),
                       width: double.infinity,
                       alignment: Alignment.center,
                       padding: const EdgeInsets.symmetric(vertical: 12),
