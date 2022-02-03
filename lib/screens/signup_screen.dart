@@ -1,7 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone/resources/auth_methods.dart';
 import 'package:instagram_clone/utils/colors.dart';
+import 'package:instagram_clone/utils/utils.dart';
 import 'package:instagram_clone/widgets/text_field_input.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -14,6 +18,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
+  Uint8List? _image;
 
   @override
   void dispose() {
@@ -22,6 +27,13 @@ class _SignupScreenState extends State<SignupScreen> {
     _passwordController.dispose();
     _bioController.dispose();
     _usernameController.dispose();
+  }
+
+  void selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = im;
+    });
   }
 
   Widget build(BuildContext context) {
@@ -44,16 +56,20 @@ class _SignupScreenState extends State<SignupScreen> {
                   // circular widget to accept and show our selected file
                   Stack(
                     children: [
-                      const CircleAvatar(
+                      _image!=null? CircleAvatar(
+                        radius: 64,
+                        backgroundImage: MemoryImage(_image!),
+                      )
+                      :const CircleAvatar(
                         radius: 64,
                         backgroundImage: NetworkImage(
-                            'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80'),
+                            'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg'),
                       ),
                       Positioned(
                           bottom: -10,
                           left: 80,
                           child: IconButton(
-                            onPressed: () {},
+                            onPressed: selectImage,
                             icon: const Icon(
                               Icons.add_a_photo,
                             ),
@@ -107,7 +123,9 @@ class _SignupScreenState extends State<SignupScreen> {
                           email: _emailController.text,
                           password: _passwordController.text,
                           username: _usernameController.text,
-                          bio: _bioController.text);
+                          bio: _bioController.text
+                          //file:
+                          );
                     },
                     child: Container(
                       child: const Text('Sign up'),

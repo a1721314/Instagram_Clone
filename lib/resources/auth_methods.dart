@@ -16,6 +16,7 @@ class AuthMethods {
     required String username,
     required String bio,
     //required Uint8List file,
+    //required Uint8List file,
   }) async {
     String res = "Some error occurred";
     try {
