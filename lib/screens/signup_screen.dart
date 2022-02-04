@@ -56,15 +56,16 @@ class _SignupScreenState extends State<SignupScreen> {
                   // circular widget to accept and show our selected file
                   Stack(
                     children: [
-                      _image!=null? CircleAvatar(
-                        radius: 64,
-                        backgroundImage: MemoryImage(_image!),
-                      )
-                      :const CircleAvatar(
-                        radius: 64,
-                        backgroundImage: NetworkImage(
-                            'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg'),
-                      ),
+                      _image != null
+                          ? CircleAvatar(
+                              radius: 64,
+                              backgroundImage: MemoryImage(_image!),
+                            )
+                          : const CircleAvatar(
+                              radius: 64,
+                              backgroundImage: NetworkImage(
+                                  'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg'),
+                            ),
                       Positioned(
                           bottom: -10,
                           left: 80,
@@ -120,12 +121,12 @@ class _SignupScreenState extends State<SignupScreen> {
                   InkWell(
                     onTap: () async {
                       String res = await AuthMethods().signUpUser(
-                          email: _emailController.text,
-                          password: _passwordController.text,
-                          username: _usernameController.text,
-                          bio: _bioController.text
-                          //file:
-                          );
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                        username: _usernameController.text,
+                        bio: _bioController.text,
+                        file: _image!,
+                      );
                     },
                     child: Container(
                       child: const Text('Sign up'),
